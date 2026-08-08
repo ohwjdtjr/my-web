@@ -3,7 +3,7 @@ const NAMESPACE = 'ohwjdtjr-profile';
 const KEY = 'visits';
 
 // API를 통해 방문자 수를 1 증가시키고 데이터를 받아옵니다.
-fetch(`https://api.counterapi.dev/v1/${NAMESPACE}/${KEY}/up`)
+fetch('https://api.counterapi.dev/v1/${NAMESPACE}/${KEY}/up')
   .then(response => response.json())
   .then(data => {
     // API에서 되돌려준 방문자 수(data.count)를 화면의 <span id="visit-count">에 넣어줍니다.
