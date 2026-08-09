@@ -167,3 +167,9 @@ body {
     font-weight: 700;
     font-size: 1rem;
 }
+
+#date-style {
+   color: #111827;
+   font-size:1rem;
+   font-weight: 600;
+}
