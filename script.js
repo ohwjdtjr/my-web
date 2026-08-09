@@ -1,24 +1,26 @@
-// 본인의 웹사이트 주소 또는 고유 키값 지정
-const siteUrl = 'https://s1ro75.xyz';
+// 본인만의 고유한 이름 설정
+const WORKSPACE = 's1ro75-portfolio';
+const KEY = 'visits';
 
-// Hits API를 호출하여 방문자 수 카운팅
-fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${encodeURIComponent(siteUrl)}')
-  .then(response => response.text())
-  .then(svgText => {
-    // SVG 이미지 파일 안에서 숫자(방문자 수) 텍스트만 정규식으로 뽑아내는 방식입니다.
-    const match = svgText.match(/<text[^>]*>(\d+)<\/text>/g);
+// 1. 먼저 카운터를 1 올리는(up) 요청을 보냅니다.
+fetch('https://api.counterapi.dev/v1/' + WORKSPACE + '/' + KEY + '/up')
+  .then(res => {
+    // 만약 카운터가 서버에 아직 생성되지 않았다면(404), 새로 생성(create)합니다.
+    if (res.status === 404) {
+      return fetch('https://api.counterapi.dev/v1/' + WORKSPACE + '/' + KEY + '/set?val=1');
+    }
+    return res;
+  })
+  .then(res => res.json())
+  .then(data => {
     const countElement = document.getElementById('visit-count');
-    
-    if (match && match.length > 0) {
-      // 숫자가 담긴 텍스트 추출
-      const lastText = match[match.length - 1];
-      const number = lastText.replace(/<[^>]+>/g, '').trim();
-      countElement.textContent = number;
-    } else {
-      countElement.textContent = '1';
+    if (data && data.count) {
+      countElement.textContent = data.count;
+    } else if (data && data.value) {
+      countElement.textContent = data.value;
     }
   })
-  .catch(error => {
-    console.error('카운터 로딩 실패:', error);
+  .catch(err => {
+    console.error('카운터 불러오기 에러:', err);
     document.getElementById('visit-count').textContent = '-';
   });
