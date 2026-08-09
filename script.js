@@ -1,14 +1,24 @@
-// 카운터 API 호출 (ohwjdtjr-profile 이름으로 카운트)
-fetch('https://api.moecounter.azurewebsites.net/api/ohwjdtjr-profile/visits?name=visits')
-  .then(response => response.json())
-  .then(data => {
+// 본인의 웹사이트 주소 또는 고유 키값 지정
+const siteUrl = 'https://s1ro75.xyz';
+
+// Hits API를 호출하여 방문자 수 카운팅
+fetch(`https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${encodeURIComponent(siteUrl)}`)
+  .then(response => response.text())
+  .then(svgText => {
+    // SVG 이미지 파일 안에서 숫자(방문자 수) 텍스트만 정규식으로 뽑아내는 방식입니다.
+    const match = svgText.match(/<text[^>]*>(\d+)<\/text>/g);
     const countElement = document.getElementById('visit-count');
-    // API에서 받은 숫자(value)를 화면에 표시
-    if (data && data.value) {
-      countElement.textContent = data.value;
+    
+    if (match && match.length > 0) {
+      // 숫자가 담긴 텍스트 추출
+      const lastText = match[match.length - 1];
+      const number = lastText.replace(/<[^>]+>/g, '').trim();
+      countElement.textContent = number;
+    } else {
+      countElement.textContent = '1';
     }
   })
   .catch(error => {
-    console.error('방문자 카운트 불러오기 실패:', error);
+    console.error('카운터 로딩 실패:', error);
     document.getElementById('visit-count').textContent = '-';
   });
