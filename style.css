@@ -173,3 +173,31 @@ body {
    font-size:1rem;
    font-weight: 600;
 }
+
+
+/* =========================================================
+   5. ★ 모바일 최적화 (화면 폭 768px 이하 일 때 적용)
+   ========================================================= */
+@media (max-width: 768px) {
+    body {
+        margin-left: 0; /* 강제 오른쪽 밀림 제거 */
+        padding: 16px;
+    }
+
+    .top-header a {
+        font-size: 2.2rem; /* 헤더 글자 크기 약간 축소 */
+    }
+
+    /* 이미지를 고정(fixed) 해제하고 카드 위쪽 중앙에 정상 배치 */
+    .screen-img {
+        position: static; 
+        display: block;
+        margin: 0 auto 20px auto; 
+        width: 100%;
+        max-width: 280px; 
+    }
+
+    .profile-card {
+        padding: 20px 16px; /* 카드 안쪽 여백 조정 */
+    }
+}
